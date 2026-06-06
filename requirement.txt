@@ -1,0 +1,9 @@
+lancedb
+pandas
+pypdf
+python-docx
+sentence-transformers
+google-generativeai
+python-dotenv
+tqdm
+numpy
