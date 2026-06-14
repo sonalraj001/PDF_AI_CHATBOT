@@ -17,6 +17,8 @@ chunks = []
 
 CHUNK_SIZE = 500
 
+print(documents)
+
 for doc in documents:
 
     text = doc["text"]

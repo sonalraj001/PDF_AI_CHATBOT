@@ -52,10 +52,10 @@ Question:
 """
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.5-flash",
         contents=prompt
     )
-
+    print(response.text)
     return response.text
 
 
