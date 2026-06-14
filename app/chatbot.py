@@ -1,16 +1,17 @@
 import lancedb
 from sentence_transformers import SentenceTransformer
-import google.generativeai as genai
+from google import genai
 
 from config import DB_PATH, TABLE_NAME, GEMINI_API_KEY
 
 
-genai.configure(api_key=GEMINI_API_KEY)
+# Gemini Client
+client = genai.Client(api_key=GEMINI_API_KEY)
 
-llm = genai.GenerativeModel("gemini-1.5-pro")
+# Embedding model
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-
+# Connect LanceDB
 db = lancedb.connect(DB_PATH)
 
 table = db.open_table(TABLE_NAME)
@@ -40,8 +41,8 @@ You are a helpful AI assistant.
 
 Answer ONLY from the provided context.
 
-If answer is not present, say:
-"I could not find this information in the documents."
+If answer is not present in context, say:
+'I could not find this information in the documents.'
 
 Context:
 {context}
@@ -50,7 +51,10 @@ Question:
 {question}
 """
 
-    response = llm.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt
+    )
 
     return response.text
 
